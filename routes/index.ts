@@ -16,7 +16,4 @@ const chat = (req: Request, res: Response) => {
   res.send("Chat");
 };
 
-module.exports.index = index;
-module.exports.login = login;
-module.exports.loginProcess = loginProcess;
-module.exports.chat = chat;
+export { index, login, loginProcess, chat };
