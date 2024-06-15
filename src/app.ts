@@ -3,13 +3,16 @@ import * as routes from "./routes/index";
 import * as errorHandlers from "./middleware/errorhandlers";
 import * as logging from "./middleware/logging";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
+const SESSION_SECRET = process.env.SESSION_SECRET as string;
 
 app.use(cookieParser());
+app.use(session({ secret: SESSION_SECRET }));
 app.use(logging.logger);
 
 app.get("/", routes.index);

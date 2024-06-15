@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
 export const index = (req: Request, res: Response) => {
-  console.log(req.cookies);
+  res.cookie("IndexCookie", "Set from Index");
+  console.log(req.session);
   res.send("Index");
 };
 
