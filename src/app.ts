@@ -7,6 +7,8 @@ import session from "express-session";
 import RedisStore from "connect-redis";
 import dotenv from "dotenv";
 import { createClient, RedisClientType } from "redis";
+import csrf from "csurf";
+import * as util from "./middleware/utilities";
 
 dotenv.config();
 const app = express();
@@ -17,7 +19,6 @@ const redisClient: RedisClientType = createClient({ url: REDIS_URL });
 (async () => {
   await redisClient.connect();
 })().catch((err) => console.log(err));
-// await redisClient.connect();
 
 app.use(cookieParser(SESSION_SECRET));
 app.use(
@@ -29,6 +30,10 @@ app.use(
   })
 );
 app.use(logging.logger);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(csrf());
+app.use(util.csrf);
 
 app.get("/", routes.index);
 app.get("/login", routes.login);

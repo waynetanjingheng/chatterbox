@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 
 export const index = (req: Request, res: Response) => {
-  res.cookie("IndexCookie", "Set from Index");
-  console.log(req.session);
   res.send("Index");
 };
 
@@ -11,7 +9,8 @@ export const login = (req: Request, res: Response) => {
 };
 
 export const loginProcess = (req: Request, res: Response) => {
-  res.redirect("/");
+  console.log(req.body);
+  res.send(req.body.username + " " + req.body.password);
 };
 
 export const chat = (req: Request, res: Response) => {
