@@ -5,48 +5,47 @@ import * as logging from "./middleware/logging";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import RedisStore from "connect-redis";
-import dotenv from "dotenv";
 import { createClient, RedisClientType } from "redis";
 import csrf from "csurf";
 import * as util from "./middleware/utilities";
+import config from "./config";
 
-dotenv.config();
 const app = express();
-const PORT = process.env.PORT;
-const SESSION_SECRET = process.env.SESSION_SECRET || "redis://localhost:6379";
-const REDIS_URL = process.env.REDIS_URL;
-const redisClient: RedisClientType = createClient({ url: REDIS_URL });
+const redisClient: RedisClientType = createClient({ url: config.REDIS_URL });
 (async () => {
   await redisClient.connect();
 })().catch((err) => console.log(err));
 
-app.use(cookieParser(SESSION_SECRET));
+app.use(cookieParser(config.SESSION_SECRET));
 app.use(
   session({
-    secret: SESSION_SECRET,
+    secret: config.SESSION_SECRET as string,
     saveUninitialized: true,
     resave: true,
     store: new RedisStore({ client: redisClient }),
   })
 );
+app.use(util.templateRoutes);
 app.use(logging.logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(csrf());
-app.use(util.csrf);
+// app.use(csrf());
+// app.use(util.csrf);
+app.use(util.isAuthenticated);
 
 app.get("/", routes.index);
-app.get("/login", routes.login);
-app.post("/login", routes.loginProcess);
-app.get("/chat", routes.chat);
+app.get(config.ROUTES.login, routes.login);
+app.post(config.ROUTES.login, routes.loginProcess);
+app.get("/chat", util.requireAuthentication, routes.chat);
 app.get("/error", (req, res, next) => next(new Error("A Contrived Error!")));
+app.get(config.ROUTES.logout, routes.logOut);
 
 app.use(errorHandlers.error);
 app.use(errorHandlers.notFound);
 
 app
-  .listen(PORT, () => {
-    console.log("Server running at PORT: ", PORT);
+  .listen(config.PORT, () => {
+    console.log("Server running at PORT: ", config.PORT);
   })
   .on("error", (error) => {
     // gracefully handle error
