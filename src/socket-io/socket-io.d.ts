@@ -1,9 +1,15 @@
 export interface ServerToClientEvents {
-  ping: () => void;
+  ping: (data: Data) => void;
+  userJoined: (data: Data) => void;
 }
 
+export type Data = {
+  username: string;
+};
+
 export interface ClientToServerEvents {
-  pong: () => void;
+  join: (data: Data) => void;
+  ping: { username: string };
 }
 
 export interface InterServerEvents {

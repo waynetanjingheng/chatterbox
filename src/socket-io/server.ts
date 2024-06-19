@@ -19,11 +19,11 @@ const io = new Server<
 >(server);
 
 io.on("connection", (socket) => {
-  socket.emit("ping");
-
-  socket.on("pong", () => {
-    console.log("pong");
+  socket.on("join", (data) => {
+    io.emit("userJoined", data);
+    socket.username = data.username;
   });
+  socket.on("ping", { username: socket.username });
 });
 
 server.listen(4000, () => {
