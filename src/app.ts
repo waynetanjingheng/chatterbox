@@ -9,17 +9,24 @@ import { createClient, RedisClientType } from "redis";
 import csrf from "csurf";
 import * as util from "./middleware/utilities";
 import config from "./config";
+import { createServer } from "http";
+import establishSocketIOServer from "./socket-io";
 
 const app = express();
-const redisClient: RedisClientType = createClient({ url: config.REDIS_URL });
+const redisClient: RedisClientType = createClient({
+  socket: {
+    host: config.redisHost,
+    port: parseInt(config.redisPort || "6379", 10),
+  },
+});
 (async () => {
   await redisClient.connect();
 })().catch((err) => console.log(err));
 
-app.use(cookieParser(config.SESSION_SECRET));
+app.use(cookieParser(config.sessionSecret));
 app.use(
   session({
-    secret: config.SESSION_SECRET as string,
+    secret: config.sessionSecret as string,
     saveUninitialized: true,
     resave: true,
     store: new RedisStore({ client: redisClient }),
@@ -34,18 +41,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(util.isAuthenticated);
 
 app.get("/", routes.index);
-app.get(config.ROUTES.login, routes.login);
-app.post(config.ROUTES.login, routes.loginProcess);
+app.get(config.routes.login, routes.login);
+app.post(config.routes.login, routes.loginProcess);
 app.get("/chat", util.requireAuthentication, routes.chat);
 app.get("/error", (req, res, next) => next(new Error("A Contrived Error!")));
-app.get(config.ROUTES.logout, routes.logOut);
+app.get(config.routes.logout, routes.logOut);
 
 app.use(errorHandlers.error);
 app.use(errorHandlers.notFound);
 
-app
-  .listen(config.PORT, () => {
-    console.log("Server running at PORT: ", config.PORT);
+export const httpServer = createServer(app);
+
+establishSocketIOServer(httpServer);
+
+httpServer
+  .listen(config.port, () => {
+    console.log("Server running at PORT: ", config.port);
   })
   .on("error", (error) => {
     // gracefully handle error

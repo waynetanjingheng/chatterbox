@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const config = {
-  PORT: process.env.PORT,
-  SESSION_SECRET: process.env.SESSION_SECRET,
-  REDIS_URL: process.env.REDIS_URL,
-  ROUTES: {
+  port: process.env.PORT,
+  sessionSecret: process.env.SESSION_SECRET,
+  redisPort: process.env.REDIS_PORT,
+  redisHost: process.env.REDIS_HOST,
+  routes: {
     login: "/login",
     logout: "/logout",
   },

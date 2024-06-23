@@ -15,7 +15,7 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
 
 export const requireAuthentication: RequestHandler = (req, res, next) => {
   if (req.session.isAuthenticated) next();
-  else res.redirect(config.ROUTES.login);
+  else res.redirect(config.routes.login);
 };
 
 export const auth = (
@@ -23,7 +23,7 @@ export const auth = (
   password: string,
   session: SessionData
 ): boolean => {
-  const isAuth = username === "wayne" || username === "bryan";
+  const isAuth = username === process.env.ALLOWED_USERNAME;
   if (isAuth) {
     session.isAuthenticated = true;
     session.user = { username: username };
@@ -37,6 +37,6 @@ export const logOut = (session: SessionData): void => {
 };
 
 export const templateRoutes: RequestHandler = (req, res, next) => {
-  res.locals.routes = config.ROUTES;
+  res.locals.routes = config.routes;
   next();
 };
