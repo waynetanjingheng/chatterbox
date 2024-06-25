@@ -52,7 +52,7 @@ app.use(errorHandlers.notFound);
 
 export const httpServer = createServer(app);
 
-establishSocketIOServer(httpServer);
+establishSocketIOServer();
 
 httpServer
   .listen(config.port, () => {
