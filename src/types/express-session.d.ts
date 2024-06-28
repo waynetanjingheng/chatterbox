@@ -4,5 +4,6 @@ declare module "express-session" {
   export interface SessionData {
     isAuthenticated?: boolean;
     user?: { [key: string]: any };
+    sid?: string
   }
 }

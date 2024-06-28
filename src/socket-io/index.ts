@@ -11,6 +11,7 @@ const getIOServerInstance = (httpServer: HttpServer): SocketIOServer => {
 
 const onSocketConnection = (socket: Socket): void => {
   socket.emit("message", { message: "Hey!" });
+  socket.emit("message", socket.user);
 };
 
 const establishSocketIOServer = (): void => {
