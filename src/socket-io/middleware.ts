@@ -4,7 +4,6 @@ import { parse } from "cookie";
 import cookieParser from "cookie-parser";
 import config from "../config";
 import { get } from "lodash";
-import session from "express-session";
 import RedisStore from "connect-redis";
 import { createClient, RedisClientType } from "redis";
 import { SessionData } from "express-session";
