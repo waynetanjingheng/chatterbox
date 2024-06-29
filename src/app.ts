@@ -15,23 +15,23 @@ import { passport, routes as passportRoutes } from "./passport/index";
 
 const app = express();
 const redisClient: RedisClientType = createClient({
-  socket: {
-    host: config.redisHost,
-    port: parseInt(config.redisPort || "6379", 10),
-  },
+    socket: {
+        host: config.redisHost,
+        port: parseInt(config.redisPort || "6379", 10),
+    },
 });
 (async () => {
-  await redisClient.connect();
+    await redisClient.connect();
 })().catch((err) => console.log(err));
 
 app.use(cookieParser(config.sessionSecret));
 app.use(
-  session({
-    secret: config.sessionSecret as string,
-    saveUninitialized: true,
-    resave: true,
-    store: new RedisStore({ client: redisClient }),
-  })
+    session({
+        secret: config.sessionSecret as string,
+        saveUninitialized: true,
+        resave: true,
+        store: new RedisStore({ client: redisClient }),
+    }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,10 +59,10 @@ export const httpServer = createServer(app);
 establishSocketIOServer();
 
 httpServer
-  .listen(config.port, () => {
-    console.log("Server running at PORT: ", config.port);
-  })
-  .on("error", (error) => {
-    // gracefully handle error
-    throw new Error(error.message);
-  });
+    .listen(config.port, () => {
+        console.log("Server running at PORT: ", config.port);
+    })
+    .on("error", (error) => {
+        // gracefully handle error
+        throw new Error(error.message);
+    });

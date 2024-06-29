@@ -4,18 +4,18 @@ import { SessionData } from "express-session";
 import config from "../config";
 
 export const index = (req: Request, res: Response) => {
-  res.send("Index");
+    res.send("Index");
 };
 
 export const login = (req: Request, res: Response) => {
-  res.send("Login");
+    res.send("Login");
 };
 
 export const chat = (req: Request, res: Response) => {
-  res.send("Chat");
+    res.send("Chat");
 };
 
 export const logOut = (req: Request, res: Response) => {
-  util.logOut(req);
-  res.redirect("/");
+    util.logOut(req);
+    res.redirect("/");
 };
