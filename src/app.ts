@@ -45,7 +45,6 @@ app.use(util.isAuthenticated);
 
 app.get("/", routes.index);
 app.get(config.routes.login, routes.login);
-app.post(config.routes.login, routes.loginProcess);
 app.get(config.routes.chat, util.requireAuthentication, routes.chat);
 app.get("/error", (req, res, next) => next(new Error("A Contrived Error!")));
 app.get(config.routes.logout, routes.logOut);
