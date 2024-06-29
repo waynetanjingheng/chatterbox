@@ -14,10 +14,16 @@ const config = {
     chat: "/chat",
     facebookAuth: "/auth/facebook",
     facebookAuthCallback: "/auth/facebook/callback",
+    googleAuth: "/auth/google",
+    googleAuthCallback: "/auth/google/callback",
   },
   facebook: {
-    appID: process.env.FACEBOOK_APP_ID,
-    appSecret: process.env.FACEBOOK_APP_SECRET,
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  },
+  google: {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET_ID,
   },
 };
 
