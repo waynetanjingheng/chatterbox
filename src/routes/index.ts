@@ -13,7 +13,7 @@ export const login = (req: Request, res: Response) => {
 
 export const loginProcess = (req: Request, res: Response) => {
   const isAuth = util.auth(req.body.username, req.body.password, req.session);
-  if (isAuth) res.redirect("/chat");
+  if (isAuth) res.redirect(config.routes.chat);
   else res.redirect(config.routes.login);
 };
 
@@ -22,6 +22,6 @@ export const chat = (req: Request, res: Response) => {
 };
 
 export const logOut = (req: Request, res: Response) => {
-  util.logOut(req.session as SessionData);
+  util.logOut(req);
   res.redirect("/");
 };
