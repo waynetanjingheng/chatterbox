@@ -4,7 +4,9 @@
   "main": "src/app.ts",
   "scripts": {
     "stop": "echo not implemented",
-    "start": "npx tsc && node dist/app.js"
+    "start": "npx tsc && node dist/app.js",
+    "prettier": "prettier --write \"src/**/*.ts\"",
+    "prettier:check": "prettier --check \"src/**/*.ts\""
   },
   "dependencies": {
     "@socket.io/redis-adapter": "^8.3.0",
@@ -38,8 +40,12 @@
     "@types/passport-local": "^1.0.38",
     "@types/socket.io": "^3.0.2",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
     "cookie-parser": "^1.4.6",
+    "eslint": "^8.57.0",
     "express-session": "^1.18.0",
+    "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
