@@ -25,6 +25,11 @@ const config = {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_SECRET_ID,
   },
+  crypto: {
+    workFactor: 5000,
+    keylen: 32,
+    randomSize: 256,
+  },
 };
 
 export default config;
