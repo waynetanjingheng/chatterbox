@@ -11,6 +11,7 @@ import * as util from "./middleware/utilities";
 import config from "./config";
 import { createServer } from "http";
 import establishSocketIOServer from "./socket-io";
+import { passport, routes as passportRoutes } from "./passport/index";
 
 const app = express();
 const redisClient: RedisClientType = createClient({
@@ -32,6 +33,8 @@ app.use(
     store: new RedisStore({ client: redisClient }),
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(util.templateRoutes);
 app.use(logging.logger);
 app.use(express.json());
@@ -43,9 +46,11 @@ app.use(util.isAuthenticated);
 app.get("/", routes.index);
 app.get(config.routes.login, routes.login);
 app.post(config.routes.login, routes.loginProcess);
-app.get("/chat", util.requireAuthentication, routes.chat);
+app.get(config.routes.chat, util.requireAuthentication, routes.chat);
 app.get("/error", (req, res, next) => next(new Error("A Contrived Error!")));
 app.get(config.routes.logout, routes.logOut);
+
+passportRoutes(app);
 
 app.use(errorHandlers.error);
 app.use(errorHandlers.notFound);

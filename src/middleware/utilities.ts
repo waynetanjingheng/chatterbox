@@ -1,4 +1,4 @@
-import type { RequestHandler } from "express";
+import type { Request, RequestHandler } from "express";
 import { SessionData } from "express-session";
 import config from "../config";
 
@@ -8,6 +8,7 @@ export const csrf: RequestHandler = (req, res, next) => {
 };
 
 export const isAuthenticated: RequestHandler = (req, res, next) => {
+  req.session.isAuthenticated = req.session.passport?.user !== undefined;
   res.locals.isAuthenticated = req.session.isAuthenticated;
   if (req.session.isAuthenticated) res.locals.user = req.session.user;
   next();
@@ -31,9 +32,11 @@ export const auth = (
   return isAuth;
 };
 
-export const logOut = (session: SessionData): void => {
-  session.isAuthenticated = false;
-  delete session.user;
+export const logOut = (req: Request): void => {
+  req.session.isAuthenticated = false;
+  req.logout((err) => {
+    if (err) console.log(err);
+  });
 };
 
 export const templateRoutes: RequestHandler = (req, res, next) => {
