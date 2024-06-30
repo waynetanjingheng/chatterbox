@@ -5,16 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // TODO: Replace with db
 // NOT production safe, just for placeholder
-const Users: UsersType = {
-    wayne: {
-        salt: "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d",
-        work: 5000,
-        displayName: "Wayne",
-        id: "e3a6d30e37cd42f09ba8b248c1a85fdd",
-        provider: "local",
-        username: "wayne",
-    },
-};
+const Users: UsersType = {};
 
 const findByUsername = (username: string, callback: Function) => {
     callback(null, get(Users, username));
@@ -39,6 +30,8 @@ const addUser = (
                     provider: "local",
                     username: username,
                 });
+                console.log("User created!")
+                console.log(Users)
             },
         );
 

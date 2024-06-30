@@ -9,9 +9,10 @@ const config = {
     redisHost: process.env.REDIS_HOST,
     host: process.env.HOST,
     routes: {
-        login: "/login",
-        logout: "/logout",
         chat: "/chat",
+        login: "/account/login",
+        logout: "/acount/logout",
+        register: "/account/register",
         facebookAuth: "/auth/facebook",
         facebookAuthCallback: "/auth/facebook/callback",
         googleAuth: "/auth/google",
