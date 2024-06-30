@@ -5,6 +5,7 @@ type User = {
     id: string;
     provider: string;
     username: string;
+    password: string;
 };
 
 type UsersType = {

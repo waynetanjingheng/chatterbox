@@ -52,13 +52,16 @@ passport.use(
     new LocalStrategy((username: string, password: string, done: Function) => {
         user.findByUsername(username, (err: Error | null, profile: User) => {
             if (profile) {
+                console.log("User attempting login...");
+                console.log(profile);
                 passwordUtils.checkPassword(
                     password,
-                    get(profile, password),
+                    get(profile, "password"),
                     get(profile, "salt"),
                     get(profile, "work"),
                     (err: Error | null, isAuth: boolean) => {
                         if (isAuth) {
+                            console.log("User authenticated locally.");
                             if (
                                 get(profile, "work") < config.crypto.workFactor
                             ) {

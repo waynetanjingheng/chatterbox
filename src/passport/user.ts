@@ -23,15 +23,15 @@ const addUser = (
             (err: Error | null, salt: number, password: string) => {
                 set(Users, username, {
                     salt: salt,
-                    password: password,
                     work: work,
                     displayName: username,
                     id: uuidv4(),
                     provider: "local",
                     username: username,
+                    password: password,
                 });
-                console.log("User created!")
-                console.log(Users)
+                console.log("User created!");
+                console.log(Users);
             },
         );
 

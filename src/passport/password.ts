@@ -40,7 +40,13 @@ const checkPassword = (
         config.crypto.keylen,
         "sha256",
         (err: Error | null, key: Buffer) => {
-            callback(null, scmp(key.toString("base64"), derivedPassword));
+            callback(
+                null,
+                scmp(
+                    Buffer.from(key.toString("base64")),
+                    Buffer.from(derivedPassword),
+                ),
+            );
         },
     );
 };
