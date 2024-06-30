@@ -11,7 +11,7 @@ const config = {
     routes: {
         chat: "/chat",
         login: "/account/login",
-        logout: "/acount/logout",
+        logout: "/account/logout",
         register: "/account/register",
         facebookAuth: "/auth/facebook",
         facebookAuthCallback: "/auth/facebook/callback",

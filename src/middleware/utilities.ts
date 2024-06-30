@@ -37,6 +37,7 @@ export const logOut = (req: Request): void => {
     req.logout((err) => {
         if (err) console.log(err);
     });
+    console.log("User successfully logged out.");
 };
 
 export const templateRoutes: RequestHandler = (req, res, next) => {
